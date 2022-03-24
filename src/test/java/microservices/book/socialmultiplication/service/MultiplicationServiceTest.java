@@ -19,7 +19,7 @@ public class MultiplicationServiceTest {
     @MockBean   // 해당 인터페이스에 맞는 구현체를 찾아 주입하는 대신 Mock 객체를 주입
     private RandomGeneratorService randomGeneratorService;
 
-    @Autowired
+    @Autowired  // 서비스가 구현되어 있지 않기 때문에 실패
     private MultiplicationService multiplicationService;
 
     @Test
