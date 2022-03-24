@@ -2,7 +2,9 @@ package microservices.book.socialmultiplication.service;
 
 import microservices.book.socialmultiplication.domain.Multiplication;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
+@Service
 public class MultiplicationServiceImpl implements MultiplicationService{
 
     private RandomGeneratorService randomGeneratorService;
