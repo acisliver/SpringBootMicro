@@ -19,10 +19,10 @@ public class MultiplicationServiceTest {
     @MockBean   // 해당 인터페이스에 맞는 구현체를 찾아 주입하는 대신 Mock 객체를 주입
     private RandomGeneratorService randomGeneratorService;
 
-    @Autowired  // 서비스가 구현되어 있지 않기 때문에 실패
+    @Autowired  // 서비스가 구현되어 있지 않기 때문에 실패, MultiplicationImpl을 만들어 성공
     private MultiplicationService multiplicationService;
 
-    @Test
+    @Test       // 테스트는 성공하지만 randomGeneratorService가 구현되지 않았기 때문에 에러 발생
     public void createRandomMultiplicationTest() {
         // given
         given(randomGeneratorService.generateRandomFactor()).willReturn(50, 30);
