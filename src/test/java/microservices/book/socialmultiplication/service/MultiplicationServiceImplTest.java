@@ -34,7 +34,7 @@ public class MultiplicationServiceImplTest {
                 new MultiplicationResultAttempt(user, multiplication, 3000);
 
         // when
-        boolean result = multiplicationServiceImpl.checkAttempt(attempt)
+        boolean result = multiplicationServiceImpl.checkAttempt(attempt);
 
         // then
         assertThat(result).isTrue();
