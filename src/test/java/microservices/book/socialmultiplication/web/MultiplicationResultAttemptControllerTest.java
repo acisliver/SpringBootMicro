@@ -6,7 +6,6 @@ import microservices.book.socialmultiplication.domain.Multiplication;
 import microservices.book.socialmultiplication.domain.MultiplicationResultAttempt;
 import microservices.book.socialmultiplication.domain.User;
 import microservices.book.socialmultiplication.service.MultiplicationService;
-import microservices.book.socialmultiplication.web.MultiplicationResultAttemptController.ResultResponse;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -38,7 +37,7 @@ public class MultiplicationResultAttemptControllerTest {
 
     // 이 객체는 initFields() 메서드를 이용해 자동으로 초기화
     private JacksonTester<MultiplicationResultAttempt> jsonResult;
-    private JacksonTester<ResultResponse> jsonResponse;
+//    private JacksonTester<ResultResponse> jsonResponse;
 
     @Before
     public void setup() {
@@ -63,7 +62,7 @@ public class MultiplicationResultAttemptControllerTest {
 
         User user = new User("Daeeun");
         Multiplication multiplication = new Multiplication(50, 70);
-        MultiplicationResultAttempt attempt = new MultiplicationResultAttempt(user, multiplication, 3500);
+        MultiplicationResultAttempt attempt = new MultiplicationResultAttempt(user, multiplication, 3500, correct);
 
         // when
         MockHttpServletResponse response = mvc.perform(post("/results")
@@ -73,7 +72,15 @@ public class MultiplicationResultAttemptControllerTest {
 
         // then
         assertThat(response.getStatus()).isEqualTo(HttpStatus.OK.value());
-        assertThat(response.getContentAsString())
-                .isEqualTo(jsonResponse.write(new ResultResponse(correct)).getJson());
+        assertThat(response.getContentAsString()).isEqualTo(
+                jsonResult.write(
+                        new MultiplicationResultAttempt(
+                                attempt.getUser(),
+                                attempt.getMultiplication(),
+                                attempt.getResultAttempt(),
+                                correct
+                        )
+                ).getJson()
+        );
     }
 }

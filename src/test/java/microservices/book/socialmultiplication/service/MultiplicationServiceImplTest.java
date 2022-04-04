@@ -9,7 +9,6 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.BDDMockito.given;
 
 
 public class MultiplicationServiceImplTest {
@@ -31,7 +30,7 @@ public class MultiplicationServiceImplTest {
         Multiplication multiplication = new Multiplication(50, 60);
         User user = new User("Daeeun");
         MultiplicationResultAttempt attempt =
-                new MultiplicationResultAttempt(user, multiplication, 3000);
+                new MultiplicationResultAttempt(user, multiplication, 3000, false);
 
         // when
         boolean result = multiplicationServiceImpl.checkAttempt(attempt);
@@ -46,7 +45,7 @@ public class MultiplicationServiceImplTest {
         Multiplication multiplication = new Multiplication(50, 60);
         User user = new User("Daeeun");
         MultiplicationResultAttempt attempt =
-                new MultiplicationResultAttempt(user, multiplication, 2000);
+                new MultiplicationResultAttempt(user, multiplication, 2000, false);
 
         // when
         boolean result = multiplicationServiceImpl.checkAttempt(attempt);
