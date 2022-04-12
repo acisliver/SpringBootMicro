@@ -35,7 +35,7 @@ public class MultiplicationServiceImplTest {
     public void setUp() {
         // 목 객체를 초기화합니다.
         MockitoAnnotations.initMocks(this);
-        multiplicationServiceImpl = new MultiplicationServiceImpl(randomGeneratorService);
+        multiplicationServiceImpl = new MultiplicationServiceImpl(randomGeneratorService, attemptRepository, userRepository);
     }
 
     @Test
