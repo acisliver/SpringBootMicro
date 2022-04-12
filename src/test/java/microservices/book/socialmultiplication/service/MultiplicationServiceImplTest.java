@@ -25,6 +25,7 @@ public class MultiplicationServiceImplTest {
     @Mock
     private RandomGeneratorService randomGeneratorService;
 
+    // 서비스 계층의 단위테스트이므로 리포지토리는 목을 사용
     @Mock
     private MultiplicationResultAttemptRepository attemptRepository;
 
@@ -34,7 +35,7 @@ public class MultiplicationServiceImplTest {
     @Before
     public void setUp() {
         // 목 객체를 초기화합니다.
-        MockitoAnnotations.initMocks(this);
+        MockitoAnnotations.openMocks(this);
         multiplicationServiceImpl = new MultiplicationServiceImpl(randomGeneratorService, attemptRepository, userRepository);
     }
 
@@ -72,6 +73,29 @@ public class MultiplicationServiceImplTest {
         // then
         assertThat(attemptResult).isFalse();
         verify(attemptRepository).save(attempt);
+    }
+
+    @Test
+    public void retrieveStatsTest() {
+        // given
+        Multiplication multiplication = new Multiplication(50, 60);
+        User user = new User("Daeeun");
+        MultiplicationResultAttempt attempt1 = new MultiplicationResultAttempt(
+                user, multiplication, 3010, false
+        );
+        MultiplicationResultAttempt attempt2 = new MultiplicationResultAttempt(
+                user, multiplication, 3051, false
+        );
+        List<MultiplicationResultAttempt> latestAttempts = Lists.newArrayList(attempt1, attempt2);
+        given(userRepository.findByAlias("Daeeun")).willReturn(Optional.empty());
+        given(attemptRepository.findTop5ByUserAliasOrderByIdDesc("Daeeun")).willReturn(latestAttempts);
+
+        // when
+        List<MultiplicationResultAttempt> latestAttemptsResult =
+                multiplicationServiceImpl.getStatsForUser("Daeeun");
+
+        // then
+        assertThat(latestAttemptsResult).isEqualTo(latestAttempts);
     }
 
 //    @Test

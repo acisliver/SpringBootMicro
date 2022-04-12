@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -40,6 +41,9 @@ public class MultiplicationServiceImpl implements MultiplicationService {
     @Override
     public boolean checkAttempt(MultiplicationResultAttempt attempt) {
         // 해당 닉네임의 사용자가 존재하는지 확인
+        // MultiplicationResultAttempt에 Cascade.Type.PERSIST로 설정하여
+        // 연결된 User와 함께 영속화된다.
+        // 등록된 User가 있는지 확인
         Optional<User> user = userRepository.findByAlias(attempt.getUser().getAlias());
 
         // 조작된 답안을 방지
@@ -64,5 +68,9 @@ public class MultiplicationServiceImpl implements MultiplicationService {
         return isCorrect;
     }
 
+    @Override
+    public List<MultiplicationResultAttempt> getStatsForUser(String userAlias) {
+        return attemptRepository.findTop5ByUserAliasOrderByIdDesc(userAlias);
+    }
 
 }
